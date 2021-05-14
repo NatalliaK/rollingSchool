@@ -5,11 +5,10 @@
     "type": "git",
     "url": ""
   },
-  "type": "commonjs",
   "description": "REST service starter for RS School",
-  "main": "src/server.js",
+  "main": "src/server.mjs",
   "scripts": {
-    "start": "nodemon src/server.js",
+    "start": "nodemon src/server.mjs",
     "lint": "eslint --ext .js,.ts --fix src/",
     "test": "cross-env DEBUG=rs:* jest --testMatch \"<rootDir>/test/e2e/test/*.test.js\" --noStackTrace --runInBand",
     "test:auth": "cross-env DEBUG=rs:* TEST_MODE=auth jest --noStackTrace"
