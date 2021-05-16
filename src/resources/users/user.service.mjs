@@ -1,11 +1,11 @@
 import { getAllUsersDB, getUserDB, createUserDB , updateUserDB, removeUserDB} from './user.memory.repository.mjs';
 
-export const getAllUsers = () => getAllUsersDB();
+export const getAllUsers = async () => getAllUsersDB();
 
-export const getUser = (id) => getUserDB(id);
+export const getUser = async (id) => getUserDB(id);
 
-export const createUser = (id) => createUserDB(id);
+export const createUser = async (id) => createUserDB(id);
 
-export const updateUser = (id) => updateUserDB(id);
+export const updateUser = async (id) => updateUserDB(id);
 
-export const removeUser = (id) => removeUserDB(id);
+export const removeUser = async (id) => removeUserDB(id);
