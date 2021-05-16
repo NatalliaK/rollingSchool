@@ -15,7 +15,9 @@ userRouter.route('/').get(async (req, res) => {
   // map user fields to exclude secret fields like "password"
   if (users) {
     res.status(200).json(users.map(User.toResponse));
-  } else res.status(404).send('Users not found');
+  } else {
+    res.status(404).send('Users not found');
+  }
 });
 
 userRouter.route('/').post(async (req, res) => {
@@ -24,7 +26,9 @@ userRouter.route('/').post(async (req, res) => {
 
   if (user) {
     res.status(201).json(User.toResponse(user));
-  } else res.status(404).send('User not created');
+  } else {
+    res.status(404).send('User not created');
+  }
 });
 
 userRouter.route('/:id').get(async (req, res) => {
