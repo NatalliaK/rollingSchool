@@ -1,1 +1,1 @@
-export const getAllUsersBD = async () => [];
+export const getAllUsersDB = async () => [];

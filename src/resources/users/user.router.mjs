@@ -7,5 +7,5 @@ export const userRouter = Router();
 userRouter.route('/').get(async (req, res) => {
   const users = await getAllUsers();
   // map user fields to exclude secret fields like "password"
-  res.json(users.map(User.toResponse));
+  await res.json(users.map(User.toResponse));
 });
