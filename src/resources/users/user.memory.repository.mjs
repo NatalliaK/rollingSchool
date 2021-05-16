@@ -35,4 +35,6 @@ export const removeUserDB = async (userId) => {
   if (!user) {
     getErrorMessageForNonexistentUser();
   }
+
+  return user;
 };

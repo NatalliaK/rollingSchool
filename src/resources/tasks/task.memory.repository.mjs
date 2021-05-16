@@ -35,4 +35,6 @@ export const removeTaskDB = async (taskId) => {
   if (!task) {
     getErrorMessageForNonexistentTask();
   }
+
+  return task;
 };

@@ -14,10 +14,8 @@ taskRouter.route('/').get(async (req, res) => {
 });
 
 taskRouter.route('/').post(async (req, res) => {
-  const {
-    body: { title, order, description, userId, columnId },
-    params: { boardId }
-  } = req;
+  const { title, order, description, userId, columnId, boardId } = req.body;
+  console.log('req', req.body);
 
   const task = await createTask(
     new Task({ title, order, description, userId, columnId, boardId })

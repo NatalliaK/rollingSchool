@@ -35,4 +35,6 @@ export const removeBoardDB = async (boardId) => {
   if (!board) {
     getErrorMessageForNonexistentBoard();
   }
+
+  return board;
 };

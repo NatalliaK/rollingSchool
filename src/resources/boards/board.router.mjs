@@ -18,7 +18,7 @@ boardRouter.route('/').post(async (req, res) => {
   const board = await createBoard(new Board({ title, columns }));
 
   if (board) {
-    res.status(200).json(Board.toResponse(board));
+    res.status(201).json(Board.toResponse(board));
   } else {
     res.status(404).send('Board not created');
   }
