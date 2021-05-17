@@ -1,10 +1,18 @@
 import { getAll, get, create, remove, update } from '../../db/temporaryDB.mjs';
-import { TASKS } from '../../constants/appConstants.mjs';
+import { BOARDS } from '../../constants/appConstants.mjs';
 
-const ENTITY_NAME = TASKS;
+const ENTITY_NAME = BOARDS;
 
-const getErrorMessageForNonexistentBoard = (boardId) => {
-  throw new Error(`The user with  id: ${boardId} is not found`);
+const checkExistentBoard = (board, boardId) => {
+  try {
+    if (!board) {
+      throw new Error(`The board with id: ${boardId} is not found`);
+    }
+  } catch (err) {
+    // temporary return will be replaced to a logger
+    return board;
+  }
+  return board;
 };
 
 export const getAllBoardsDB = async () => getAll(ENTITY_NAME);
@@ -12,29 +20,19 @@ export const getAllBoardsDB = async () => getAll(ENTITY_NAME);
 export const getBoardDB = async (boardId) => {
   const board = await get(ENTITY_NAME, boardId);
 
-  if (!board) {
-    getErrorMessageForNonexistentBoard();
-  }
-  return board;
+  return checkExistentBoard(board, boardId);
 };
 
-export const createBoardDB = async (boardId) => create(ENTITY_NAME, boardId);
+export const createBoardDB = async (board) => create(ENTITY_NAME, board);
 
-export const updateBoardDB = async (boardId) => {
-  const board = await update(ENTITY_NAME, boardId);
+export const updateBoardDB = async (board) => {
+  const updatedBoard = await update(ENTITY_NAME, board);
 
-  if (!board) {
-    getErrorMessageForNonexistentBoard();
-  }
-  return board;
+  return checkExistentBoard(updatedBoard, board.id);
 };
 
 export const removeBoardDB = async (boardId) => {
   const board = await remove(ENTITY_NAME, boardId);
 
-  if (!board) {
-    getErrorMessageForNonexistentBoard();
-  }
-
-  return board;
+  return checkExistentBoard(board, boardId);
 };

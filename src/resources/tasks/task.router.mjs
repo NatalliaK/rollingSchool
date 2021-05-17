@@ -2,10 +2,11 @@ import { Router } from 'express';
 import { createTask, getAllTasks, getTask, removeTask, updateTask } from './task.service.mjs';
 import { Task } from './task.model.mjs';
 
-export const taskRouter = Router();
+export const taskRouter = Router({mergeParams: true});
 
 taskRouter.route('/').get(async (req, res) => {
-  const tasks = await getAllTasks();
+  const { boardId } = req.params;
+  const tasks = await getAllTasks(boardId);
   if (tasks) {
     res.status(200).json(tasks.map(Task.toResponse));
   } else {
@@ -14,8 +15,10 @@ taskRouter.route('/').get(async (req, res) => {
 });
 
 taskRouter.route('/').post(async (req, res) => {
-  const { title, order, description, userId, columnId, boardId } = req.body;
-  console.log('req', req.body);
+  const {
+    body: { title, order, description, userId, columnId },
+    params: { boardId }
+  } = req;
 
   const task = await createTask(
     new Task({ title, order, description, userId, columnId, boardId })
@@ -29,10 +32,11 @@ taskRouter.route('/').post(async (req, res) => {
 });
 
 taskRouter.route('/:id').get(async (req, res) => {
-  const user = await getTask(req.params.id);
+  const { id, boardId } = req.params;
+  const task = await getTask({id, boardId});
 
-  if (user) {
-    res.status(200).json(Task.toResponse(user));
+  if (task) {
+    res.status(200).json(Task.toResponse(task));
   } else {
     res.status(404).send('User not found');
   }
@@ -41,10 +45,10 @@ taskRouter.route('/:id').get(async (req, res) => {
 taskRouter.route('/:id').put(async (req, res) => {
   const {
     body,
-    params: { id }
+    params: { id, boardId }
   } = req;
 
-  const task = await updateTask({ id, ...body });
+  const task = await updateTask({ id, boardId, ...body });
 
   if (task) {
     res.status(200).json(Task.toResponse(task));

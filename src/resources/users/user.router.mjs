@@ -59,7 +59,7 @@ userRouter.route('/:id').delete(async (req, res) => {
   const user = await removeUser(req.params.id);
 
   if (user) {
-    res.status(200).json(User.toResponse(user));
+    res.status(204).json(User.toResponse(user));
   } else {
     res.status(404).send('User not removed');
   }

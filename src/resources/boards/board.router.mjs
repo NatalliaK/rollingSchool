@@ -52,7 +52,7 @@ boardRouter.route('/:id').delete(async (req, res) => {
   const board = await removeBoard(req.params.id);
 
   if (board) {
-    res.status(200).json(Board.toResponse(board));
+    res.status(204).json(Board.toResponse(board));
   } else {
     res.status(404).send('Board not removed');
   }

@@ -5,16 +5,16 @@ export const getAllBoards = async () => getAllBoardsDB();
 
 export const getBoard = async (id) => getBoardDB(id);
 
-export const createBoard = async (id) => createBoardDB(id);
+export const createBoard = async (board) => createBoardDB(board);
 
-export const updateBoard = async (id) => updateBoardDB(id);
+export const updateBoard = async (board) => updateBoardDB(board);
 
 export const removeBoard = async (id) => {
   const allTasks = await getAllTasksDB();
   const currentBoardTasks = allTasks.filter(task => task.boardId === id);
 
   Promise.all(
-    currentBoardTasks.map(entity => removeTaskDB(entity.id))
+    currentBoardTasks.map(task => removeTaskDB(task.id))
   ).catch(err => {
     throw new Error(`Error delete board's task: ${err}`)
   });

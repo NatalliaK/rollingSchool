@@ -14,7 +14,7 @@ export const DB = {
   const boardsDB = DB.BOARDS;
   const tasksDB = DB.TASKS;
 
-  for (let i = 0; i <= 3; i++) {
+  for (let i = 0; i <= 3; i += 1) {
     /* usersDB */
     const user = new User();
     usersDB[user.id] = { ...user };

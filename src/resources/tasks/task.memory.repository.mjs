@@ -3,38 +3,38 @@ import { TASKS } from '../../constants/appConstants.mjs';
 
 const ENTITY_NAME = TASKS;
 
-const getErrorMessageForNonexistentTask = (taskId) => {
-  throw new Error(`The user with  id: ${taskId} is not found`);
-};
-
-export const getAllTasksDB = async () => getAll(ENTITY_NAME);
-
-export const getTaskDB = async (taskId) => {
-  const task = await get(ENTITY_NAME, taskId);
-
-  if (!task) {
-    getErrorMessageForNonexistentTask();
+const checkExistentTask = (task, taskId) => {
+  try {
+    if (!task) {
+      throw new Error(`The task with id: ${taskId} is not found`)}
+  } catch (err) {
+    // temporary return will be replaced to a logger
+    return task;
   }
   return task;
 };
 
-export const createTaskDB = async (taskId) => create(ENTITY_NAME, taskId);
-
-export const updateTaskDB = async (taskId) => {
-  const task = await update(ENTITY_NAME, taskId);
-
-  if (!task) {
-    getErrorMessageForNonexistentTask();
-  }
-  return task;
+export const getAllTasksDB = async (boardId) => {
+  const tasks = await getAll(ENTITY_NAME);
+  return boardId ? tasks.filter(task => task.boardId === boardId) : tasks;
 };
 
-export const removeTaskDB = async (taskId) => {
-  const task = await remove(ENTITY_NAME, taskId);
+export const getTaskDB = async ({id}) => {
+  const task = await get(ENTITY_NAME, id);
 
-  if (!task) {
-    getErrorMessageForNonexistentTask();
-  }
+  return checkExistentTask(task, id);
+};
 
-  return task;
+export const createTaskDB = async (task) => create(ENTITY_NAME, task);
+
+export const updateTaskDB = async (task) => {
+  const updatedTask = await update(ENTITY_NAME, task);
+
+  return checkExistentTask(updatedTask, task.id);
+};
+
+export const removeTaskDB = async (id) => {
+  const task = await remove(ENTITY_NAME, id);
+
+  return checkExistentTask(task, id);
 };
